@@ -1,0 +1,50 @@
+# Global AI Rules for Rental Management System
+
+## Architecture Rules
+
+- This project uses **in-memory storage only**. Do NOT introduce external databases, ORMs, or API calls.
+- All data is stored in Python dictionaries within repository classes.
+- Follow the **layered architecture**: Models → Storage (Repositories) → Services.
+- Services depend on repository **interfaces** (ABCs), never on concrete implementations.
+
+## Code Quality Rules
+
+- **No code without interfaces**: Every repository must implement an ABC interface defined in `src/storage/interfaces.py` or entity-specific interface files.
+- **Type hints required**: Every function parameter and return type must have type annotations.
+- **Docstrings required**: Every public class and method must have a Google-style docstring.
+- **Use `from __future__ import annotations`** at the top of every Python file.
+- Follow **PEP 8** naming conventions strictly.
+- Use **dataclasses** for all domain models.
+- Maximum line length: **120 characters**.
+
+## Design Patterns (GoF)
+
+- **Strategy Pattern**: Used for penalty calculation algorithms (`src/services/penalty_strategy.py`). Add new strategies by subclassing `PenaltyStrategy`.
+- **Observer Pattern**: Used for space event notifications (`src/services/notification_service.py`). Add new subscribers by implementing `SpaceEventSubscriber`.
+- **Factory Method Pattern**: Used for invoice creation (`src/services/invoice_factory.py`). Add new invoice types by subclassing `InvoiceFactory`.
+
+## SOLID Principles
+
+- **S**: Each service handles one domain area only.
+- **O**: Strategy/Factory patterns allow extension without modification.
+- **L**: All repository implementations are interchangeable via interfaces.
+- **I**: Separate `IReadRepository` and `IWriteRepository` interfaces.
+- **D**: Services depend on repository ABCs, injected via constructor.
+
+## Testing Rules (TDD)
+
+- Write tests **before** implementation when possible.
+- Every new feature must have corresponding unit tests.
+- Use `pytest` with fixtures from `tests/conftest.py`.
+- Use factory functions (`make_tenant`, `make_space`, etc.) for test data.
+- Mock repositories when testing services in isolation.
+- Target **70%+ code coverage**.
+- Run tests with: `pytest --cov=src --cov-report=term-missing -v`
+
+## Forbidden
+
+- No external databases (SQLite, PostgreSQL, MongoDB, etc.)
+- No external APIs or HTTP calls
+- No global mutable state outside repositories
+- No `print()` statements in production code
+- No hardcoded IDs in production code (use `generate_prefixed_id()`)
