@@ -69,14 +69,8 @@ jobs:
           SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
           SONAR_HOST_URL: https://sonarcloud.io
 
-  quality-gate:
-    name: Quality Gate
-    needs: build-and-test
-    runs-on: ubuntu-latest
-    if: ${{ needs.build-and-test.result == 'success' }}
-    env:
-      SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
-    steps:
+      # Quality Gate runs in the same job so it can read the scanner metadata
+      # (.scannerwork/report-task.txt) produced by the scan step above.
       - name: Check SonarCloud Quality Gate
         if: env.SONAR_TOKEN != ''
         uses: SonarSource/sonarqube-quality-gate-action@v1.2.0
