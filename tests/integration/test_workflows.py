@@ -1,14 +1,20 @@
 """Integration tests for cross-service workflows."""
-import pytest
 from datetime import date, timedelta
+
 from src.models.enums import (
-    BookingStatus, CheckInStatus, ContractStatus, InvoiceStatus,
-    InvoiceType, PaymentMethod, SpaceStatus, SpaceType, TenantStatus,
+    ContractStatus,
+    InvoiceStatus,
+    InvoiceType,
+    PaymentMethod,
+    SpaceStatus,
+    SpaceType,
 )
-from src.services.penalty_strategy import FlatRatePenalty, ProgressivePenalty
 from src.services.notification_service import (
-    BookingQueueNotifier, SpaceEventPublisher, TenantNotifier,
+    BookingQueueNotifier,
+    SpaceEventPublisher,
+    TenantNotifier,
 )
+from src.services.penalty_strategy import FlatRatePenalty
 
 
 class TestFullRentalLifecycle:
@@ -61,7 +67,7 @@ class TestFullRentalLifecycle:
         assert invoice.status == InvoiceStatus.PENDING
         assert invoice.base_amount == 1500.0
 
-        payment = payment_service.process_payment(invoice.id, 1500.0, PaymentMethod.CARD)
+        payment_service.process_payment(invoice.id, 1500.0, PaymentMethod.CARD)
         invoice = invoice_service.get_invoice(invoice.id)
         assert invoice.is_paid()
 
@@ -107,7 +113,7 @@ class TestPenaltyEscalationFlow:
         contract_service.activate_contract(c.id)
 
         # Generate invoice with past due date
-        inv = invoice_service.generate_regular_invoice(c.id, date(2024, 1, 1))
+        invoice_service.generate_regular_invoice(c.id, date(2024, 1, 1))
 
         # Apply penalties 45 days later
         invoice_service.penalty_strategy = FlatRatePenalty(5.0)

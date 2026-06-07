@@ -1,15 +1,23 @@
 """Unit tests for CheckInService, InvoiceService, and PaymentService."""
-import pytest
 from datetime import date, timedelta
-from src.models.enums import (
-    ContractStatus, InvoiceStatus, InvoiceType, PaymentMethod, SpaceType,
-)
-from src.services.penalty_strategy import FlatRatePenalty, ProgressivePenalty
-from src.utils.exceptions import (
-    BusinessRuleViolationError, ContractNotActiveError, EntityNotFoundError,
-    InvalidStateTransitionError, InvoiceAlreadyPaidError, ValidationError,
-)
 
+import pytest
+
+from src.models.enums import (
+    InvoiceStatus,
+    InvoiceType,
+    PaymentMethod,
+    SpaceType,
+)
+from src.services.penalty_strategy import FlatRatePenalty
+from src.utils.exceptions import (
+    BusinessRuleViolationError,
+    ContractNotActiveError,
+    EntityNotFoundError,
+    InvalidStateTransitionError,
+    InvoiceAlreadyPaidError,
+    ValidationError,
+)
 
 # ─── CheckInService Tests ──────────────────────────────────────────────
 
@@ -118,7 +126,9 @@ class TestInvoiceService:
         inv = invoice_service.generate_settlement_invoice(c.id, date.today(), 500.0)
         assert inv.type == InvoiceType.FINAL_SETTLEMENT
 
-    def test_generate_invoice_inactive_contract_raises(self, invoice_service, tenant_service, space_service, contract_service):
+    def test_generate_invoice_inactive_contract_raises(
+        self, invoice_service, tenant_service, space_service, contract_service
+    ):
         t = tenant_service.register_tenant("A", "a@t.com", "+380501111111")
         s = space_service.create_space("S1", SpaceType.OFFICE, 50.0, 1, 1000.0)
         c = contract_service.create_contract(
@@ -152,7 +162,7 @@ class TestInvoiceService:
 
     def test_apply_penalties(self, invoice_service, tenant_service, space_service, contract_service):
         _, _, c = self._setup(tenant_service, space_service, contract_service)
-        inv = invoice_service.generate_regular_invoice(c.id, date(2024, 1, 1))
+        invoice_service.generate_regular_invoice(c.id, date(2024, 1, 1))
         penalized = invoice_service.apply_penalties(date(2024, 2, 15))
         assert len(penalized) == 1
         assert penalized[0].penalty_amount > 0
@@ -189,24 +199,32 @@ class TestPaymentService:
         assert pay.amount == 1000.0
         assert pay.id.startswith("PAY-")
 
-    def test_payment_marks_invoice_paid(self, payment_service, invoice_service, tenant_service, space_service, contract_service):
+    def test_payment_marks_invoice_paid(
+        self, payment_service, invoice_service, tenant_service, space_service, contract_service
+    ):
         _, inv = self._setup_with_invoice(tenant_service, space_service, contract_service, invoice_service)
         payment_service.process_payment(inv.id, 1000.0, PaymentMethod.CARD)
         updated = invoice_service.get_invoice(inv.id)
         assert updated.is_paid()
 
-    def test_payment_already_paid_raises(self, payment_service, tenant_service, space_service, contract_service, invoice_service):
+    def test_payment_already_paid_raises(
+        self, payment_service, tenant_service, space_service, contract_service, invoice_service
+    ):
         _, inv = self._setup_with_invoice(tenant_service, space_service, contract_service, invoice_service)
         payment_service.process_payment(inv.id, 1000.0, PaymentMethod.CARD)
         with pytest.raises(InvoiceAlreadyPaidError):
             payment_service.process_payment(inv.id, 1000.0, PaymentMethod.CARD)
 
-    def test_payment_zero_amount_raises(self, payment_service, tenant_service, space_service, contract_service, invoice_service):
+    def test_payment_zero_amount_raises(
+        self, payment_service, tenant_service, space_service, contract_service, invoice_service
+    ):
         _, inv = self._setup_with_invoice(tenant_service, space_service, contract_service, invoice_service)
         with pytest.raises(ValidationError):
             payment_service.process_payment(inv.id, 0, PaymentMethod.CARD)
 
-    def test_payment_insufficient_amount_raises(self, payment_service, tenant_service, space_service, contract_service, invoice_service):
+    def test_payment_insufficient_amount_raises(
+        self, payment_service, tenant_service, space_service, contract_service, invoice_service
+    ):
         _, inv = self._setup_with_invoice(tenant_service, space_service, contract_service, invoice_service)
         with pytest.raises(ValidationError):
             payment_service.process_payment(inv.id, 500.0, PaymentMethod.CARD)
@@ -221,7 +239,9 @@ class TestPaymentService:
         with pytest.raises(EntityNotFoundError):
             payment_service.get_payment("nope")
 
-    def test_get_payments_for_invoice(self, payment_service, tenant_service, space_service, contract_service, invoice_service):
+    def test_get_payments_for_invoice(
+        self, payment_service, tenant_service, space_service, contract_service, invoice_service
+    ):
         _, inv = self._setup_with_invoice(tenant_service, space_service, contract_service, invoice_service)
         payment_service.process_payment(inv.id, 1000.0, PaymentMethod.BANK_TRANSFER)
         payments = payment_service.get_payments_for_invoice(inv.id)

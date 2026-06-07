@@ -6,12 +6,9 @@ with Interface Segregation (separate read and write interfaces).
 from __future__ import annotations
 
 from abc import ABC, abstractmethod
-from typing import Generic, TypeVar
-
-T = TypeVar("T")
 
 
-class IReadRepository(ABC, Generic[T]):
+class IReadRepository[T](ABC):
     """Interface for read-only repository operations."""
 
     @abstractmethod
@@ -53,7 +50,7 @@ class IReadRepository(ABC, Generic[T]):
         """
 
 
-class IWriteRepository(ABC, Generic[T]):
+class IWriteRepository[T](ABC):
     """Interface for write repository operations."""
 
     @abstractmethod
@@ -96,5 +93,5 @@ class IWriteRepository(ABC, Generic[T]):
         """
 
 
-class IRepository(IReadRepository[T], IWriteRepository[T], ABC):
+class IRepository[T](IReadRepository[T], IWriteRepository[T], ABC):
     """Combined read-write repository interface."""

@@ -1,7 +1,8 @@
 """Unit tests for Strategy Pattern (Penalty Calculation)."""
-import pytest
 from src.services.penalty_strategy import (
-    FlatRatePenalty, PercentagePenalty, ProgressivePenalty,
+    FlatRatePenalty,
+    PercentagePenalty,
+    ProgressivePenalty,
 )
 from tests.conftest import make_invoice
 

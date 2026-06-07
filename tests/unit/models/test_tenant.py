@@ -1,6 +1,4 @@
 """Unit tests for the Tenant model."""
-import pytest
-from src.models.tenant import Tenant
 from src.models.enums import TenantStatus
 from tests.conftest import make_tenant
 

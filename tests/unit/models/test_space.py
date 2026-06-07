@@ -1,6 +1,4 @@
 """Unit tests for the Space model."""
-import pytest
-from src.models.space import Space
 from src.models.enums import SpaceStatus, SpaceType
 from tests.conftest import make_space
 

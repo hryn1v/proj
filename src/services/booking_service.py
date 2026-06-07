@@ -5,8 +5,8 @@ from datetime import date
 
 from src.models.booking import Booking
 from src.models.enums import BookingStatus
-from src.services.tenant_service import TenantService
 from src.services.space_service import SpaceService
+from src.services.tenant_service import TenantService
 from src.storage.booking_repository import IBookingRepository
 from src.utils.exceptions import (
     DuplicateBookingError,

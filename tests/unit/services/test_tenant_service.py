@@ -1,12 +1,12 @@
 """Unit tests for TenantService."""
 import pytest
+
 from src.models.enums import TenantStatus
-from src.services.tenant_service import TenantService
-from src.storage.tenant_repository import InMemoryTenantRepository
 from src.utils.exceptions import (
-    EntityNotFoundError, TenantBlockedError, ValidationError,
+    EntityNotFoundError,
+    TenantBlockedError,
+    ValidationError,
 )
-from tests.conftest import make_tenant
 
 
 class TestRegisterTenant:
@@ -79,7 +79,7 @@ class TestUpdateTenant:
             tenant_service.update_tenant(t.id, email="bad")
 
     def test_update_duplicate_email_raises(self, tenant_service):
-        t1 = tenant_service.register_tenant("A", "a@t.com", "+380501111111")
+        tenant_service.register_tenant("A", "a@t.com", "+380501111111")
         t2 = tenant_service.register_tenant("B", "b@t.com", "+380502222222")
         with pytest.raises(ValidationError):
             tenant_service.update_tenant(t2.id, email="a@t.com")
@@ -133,7 +133,7 @@ class TestTenantQueries:
         assert len(tenant_service.get_all_tenants()) == 2
 
     def test_get_active_tenants(self, tenant_service):
-        t1 = tenant_service.register_tenant("A", "a@t.com", "+380501111111")
+        tenant_service.register_tenant("A", "a@t.com", "+380501111111")
         t2 = tenant_service.register_tenant("B", "b@t.com", "+380502222222")
         tenant_service.block_tenant(t2.id)
         active = tenant_service.get_active_tenants()

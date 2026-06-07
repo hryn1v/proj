@@ -21,11 +21,11 @@ from src.storage.invoice_repository import (
     InMemoryInvoiceRepository,
 )
 from src.storage.payment_repository import (
-    IPaymentRepository,
     InMemoryPaymentRepository,
+    IPaymentRepository,
 )
-from src.storage.space_repository import ISpaceRepository, InMemorySpaceRepository
-from src.storage.tenant_repository import ITenantRepository, InMemoryTenantRepository
+from src.storage.space_repository import InMemorySpaceRepository, ISpaceRepository
+from src.storage.tenant_repository import InMemoryTenantRepository, ITenantRepository
 
 __all__ = [
     "IReadRepository",

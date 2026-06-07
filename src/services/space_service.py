@@ -1,7 +1,7 @@
 """Space management service."""
 from __future__ import annotations
 
-from src.models.enums import SpaceStatus, SpaceType
+from src.models.enums import SpaceType
 from src.models.space import Space
 from src.services.notification_service import SpaceEventPublisher
 from src.storage.space_repository import ISpaceRepository

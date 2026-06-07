@@ -1,10 +1,15 @@
 """Unit tests for BookingService."""
-import pytest
 from datetime import date, timedelta
+
+import pytest
+
 from src.models.enums import BookingStatus, SpaceType
 from src.utils.exceptions import (
-    DuplicateBookingError, EntityNotFoundError, InvalidStateTransitionError,
-    TenantBlockedError, ValidationError,
+    DuplicateBookingError,
+    EntityNotFoundError,
+    InvalidStateTransitionError,
+    TenantBlockedError,
+    ValidationError,
 )
 
 

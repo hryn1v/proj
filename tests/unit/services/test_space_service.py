@@ -1,5 +1,6 @@
 """Unit tests for SpaceService."""
 import pytest
+
 from src.models.enums import SpaceStatus, SpaceType
 from src.services.notification_service import SpaceEventPublisher, TenantNotifier
 from src.utils.exceptions import EntityNotFoundError, SpaceNotAvailableError, ValidationError

@@ -5,15 +5,13 @@ implementing all CRUD operations from the IRepository interface.
 """
 from __future__ import annotations
 
-from typing import Callable, Generic, TypeVar
+from collections.abc import Callable
 
 from src.storage.interfaces import IRepository
 from src.utils.exceptions import EntityAlreadyExistsError, EntityNotFoundError
 
-T = TypeVar("T")
 
-
-class InMemoryBaseRepository(IRepository[T], Generic[T]):
+class InMemoryBaseRepository[T](IRepository[T]):
     """Generic in-memory repository using a dict as the data store.
 
     All entities must have an 'id' attribute of type str.

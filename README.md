@@ -1,10 +1,10 @@
 # 🏢 Rental Management System
 
-[![CI Pipeline](https://github.com/YOUR_USERNAME/rental-management-system/actions/workflows/ci-pipeline.yml/badge.svg)](https://github.com/YOUR_USERNAME/rental-management-system/actions/workflows/ci-pipeline.yml)
-[![Quality Gate Status](https://sonarcloud.io/api/project_badges/measure?project=rental-management-system&metric=alert_status)](https://sonarcloud.io/summary/new_code?id=rental-management-system)
-[![Coverage](https://sonarcloud.io/api/project_badges/measure?project=rental-management-system&metric=coverage)](https://sonarcloud.io/summary/new_code?id=rental-management-system)
-[![Bugs](https://sonarcloud.io/api/project_badges/measure?project=rental-management-system&metric=bugs)](https://sonarcloud.io/summary/new_code?id=rental-management-system)
-[![Code Smells](https://sonarcloud.io/api/project_badges/measure?project=rental-management-system&metric=code_smells)](https://sonarcloud.io/summary/new_code?id=rental-management-system)
+[![CI Pipeline](https://github.com/hryn1v/proj/actions/workflows/ci-pipeline.yml/badge.svg)](https://github.com/hryn1v/proj/actions/workflows/ci-pipeline.yml)
+[![Quality Gate Status](https://sonarcloud.io/api/project_badges/measure?project=hryn1v_proj&metric=alert_status)](https://sonarcloud.io/summary/new_code?id=hryn1v_proj)
+[![Coverage](https://sonarcloud.io/api/project_badges/measure?project=hryn1v_proj&metric=coverage)](https://sonarcloud.io/summary/new_code?id=hryn1v_proj)
+[![Bugs](https://sonarcloud.io/api/project_badges/measure?project=hryn1v_proj&metric=bugs)](https://sonarcloud.io/summary/new_code?id=hryn1v_proj)
+[![Code Smells](https://sonarcloud.io/api/project_badges/measure?project=hryn1v_proj&metric=code_smells)](https://sonarcloud.io/summary/new_code?id=hryn1v_proj)
 
 > In-memory rental management system handling **check-ins, contracts, space bookings, and invoices** — built with clean architecture, GoF design patterns, SOLID principles, and comprehensive test coverage.
 
@@ -116,8 +116,8 @@ rental-management-system/
 
 ```bash
 # Clone the repository
-git clone https://github.com/YOUR_USERNAME/rental-management-system.git
-cd rental-management-system
+git clone https://github.com/hryn1v/proj.git
+cd proj
 
 # Install dependencies
 pip install -r requirements.txt

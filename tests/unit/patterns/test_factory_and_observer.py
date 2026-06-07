@@ -1,17 +1,22 @@
 """Unit tests for Factory Method Pattern (Invoice Factories) and Observer Pattern."""
-import pytest
 from datetime import date
-from src.models.enums import InvoiceType, ContractStatus
+
+import pytest
+
+from src.models.enums import ContractStatus, InvoiceType
 from src.services.invoice_factory import (
-    RegularInvoiceFactory, PenaltyInvoiceFactory,
-    DepositInvoiceFactory, FinalSettlementFactory,
+    DepositInvoiceFactory,
+    FinalSettlementFactory,
+    PenaltyInvoiceFactory,
+    RegularInvoiceFactory,
 )
 from src.services.notification_service import (
-    SpaceEventPublisher, BookingQueueNotifier, TenantNotifier,
+    BookingQueueNotifier,
+    SpaceEventPublisher,
+    TenantNotifier,
 )
 from src.storage.booking_repository import InMemoryBookingRepository
-from tests.conftest import make_contract, make_booking, make_space
-
+from tests.conftest import make_booking, make_contract, make_space
 
 # ─── Invoice Factory Tests ─────────────────────────────────────────────
 

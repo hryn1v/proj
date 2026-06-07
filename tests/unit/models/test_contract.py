@@ -1,7 +1,6 @@
 """Unit tests for the Contract model."""
-import pytest
 from datetime import date
-from src.models.contract import Contract
+
 from src.models.enums import ContractStatus
 from tests.conftest import make_contract
 

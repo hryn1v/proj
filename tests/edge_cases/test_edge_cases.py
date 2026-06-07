@@ -1,16 +1,19 @@
 """Edge case tests for boundary conditions and extreme scenarios."""
-import pytest
 from datetime import date, timedelta
+
+import pytest
+
 from src.models.enums import (
-    BookingStatus, ContractStatus, InvoiceStatus,
-    PaymentMethod, SpaceType, TenantStatus,
+    SpaceType,
 )
+from src.services.penalty_strategy import PercentagePenalty, ProgressivePenalty
 from src.utils.exceptions import (
-    BusinessRuleViolationError, ContractNotActiveError, DuplicateBookingError,
-    EntityNotFoundError, InvalidStateTransitionError, InvoiceAlreadyPaidError,
-    SpaceNotAvailableError, TenantBlockedError, ValidationError,
+    ContractNotActiveError,
+    InvalidStateTransitionError,
+    InvoiceAlreadyPaidError,
+    TenantBlockedError,
+    ValidationError,
 )
-from src.services.penalty_strategy import FlatRatePenalty, PercentagePenalty, ProgressivePenalty
 from tests.conftest import make_invoice
 
 

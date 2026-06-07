@@ -1,12 +1,11 @@
 """Shared test fixtures for the Rental Management System."""
 from __future__ import annotations
 
-from datetime import date, datetime, timedelta
+from datetime import date, timedelta
 
 import pytest
 
 from src.models.booking import Booking
-from src.models.check_in import CheckIn
 from src.models.contract import Contract
 from src.models.enums import (
     BookingStatus,
@@ -18,7 +17,6 @@ from src.models.enums import (
     TenantStatus,
 )
 from src.models.invoice import Invoice
-from src.models.notification import Notification
 from src.models.payment import Payment
 from src.models.space import Space
 from src.models.tenant import Tenant
@@ -37,7 +35,6 @@ from src.storage.invoice_repository import InMemoryInvoiceRepository
 from src.storage.payment_repository import InMemoryPaymentRepository
 from src.storage.space_repository import InMemorySpaceRepository
 from src.storage.tenant_repository import InMemoryTenantRepository
-
 
 # ─── Sample Data Helpers ───────────────────────────────────────────────
 

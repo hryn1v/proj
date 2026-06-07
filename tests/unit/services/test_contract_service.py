@@ -1,10 +1,16 @@
 """Unit tests for ContractService."""
-import pytest
 from datetime import date, timedelta
+
+import pytest
+
 from src.models.enums import ContractStatus, SpaceType
 from src.utils.exceptions import (
-    ContractNotActiveError, EntityNotFoundError, InvalidStateTransitionError,
-    SpaceNotAvailableError, TenantBlockedError, ValidationError,
+    ContractNotActiveError,
+    EntityNotFoundError,
+    InvalidStateTransitionError,
+    SpaceNotAvailableError,
+    TenantBlockedError,
+    ValidationError,
 )
 
 
