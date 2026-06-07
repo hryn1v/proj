@@ -10,6 +10,8 @@ jobs:
   build-and-test:
     name: Build, Test & Analyze
     runs-on: ubuntu-latest
+    env:
+      SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
 
     steps:
       - name: Checkout code
@@ -57,19 +59,27 @@ jobs:
             reports/htmlcov/
           retention-days: 30
 
+      # SonarCloud analysis runs only when a SONAR_TOKEN secret is configured.
+      # Until then the pipeline still passes (lint, tests, coverage, artifacts).
       - name: SonarCloud Scan
-        uses: SonarSource/sonarcloud-github-action@master
+        if: env.SONAR_TOKEN != ''
+        uses: SonarSource/sonarqube-scan-action@v4
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
           SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
+          SONAR_HOST_URL: https://sonarcloud.io
 
   quality-gate:
     name: Quality Gate
     needs: build-and-test
     runs-on: ubuntu-latest
+    if: ${{ needs.build-and-test.result == 'success' }}
+    env:
+      SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
     steps:
       - name: Check SonarCloud Quality Gate
-        uses: SonarSource/sonarqube-quality-gate-action@master
+        if: env.SONAR_TOKEN != ''
+        uses: SonarSource/sonarqube-quality-gate-action@v1.2.0
         timeout-minutes: 5
         env:
           SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
