@@ -59,12 +59,14 @@ Commands (arguments in <> are required, [] optional):
     tenant block <id>                      Block a tenant
     tenant activate <id>                   Re-activate a tenant
     tenant violate <id>                    Record a violation (auto-blocks at 3)
+    tenant delete <id>                     Delete a tenant
 
   Spaces            (type: office | apartment | parking | warehouse)
     space add <name> <type> <area> <floor> <price>   Create a space
     space list                             List all spaces
     space available                        List available spaces
     space show <id>                        Show one space
+    space delete <id>                      Delete a space
 
   Contracts         (dates: YYYY-MM-DD)
     contract create <tenant_id> <space_id> <start> <end> <rate> [deposit]
@@ -137,10 +139,12 @@ class RentalCLI:
             "tenant block": self._tenant_block,
             "tenant activate": self._tenant_activate,
             "tenant violate": self._tenant_violate,
+            "tenant delete": self._tenant_delete,
             "space add": self._space_add,
             "space list": self._space_list,
             "space available": self._space_available,
             "space show": self._space_show,
+            "space delete": self._space_delete,
             "contract create": self._contract_create,
             "contract activate": self._contract_activate,
             "contract terminate": self._contract_terminate,
@@ -255,6 +259,10 @@ class RentalCLI:
     def _tenant_violate(self, args: list[str]) -> str:
         return f"✓ Violation recorded → {self._fmt_tenant(self.tenants.add_violation(args[0]))}"
 
+    def _tenant_delete(self, args: list[str]) -> str:
+        self.tenants.delete_tenant(args[0])
+        return f"✓ Deleted tenant {args[0]}"
+
     # ── Space handlers ────────────────────────────────────────────────
 
     def _space_add(self, args: list[str]) -> str:
@@ -272,6 +280,10 @@ class RentalCLI:
 
     def _space_show(self, args: list[str]) -> str:
         return self._fmt_space(self.spaces.get_space(args[0]))
+
+    def _space_delete(self, args: list[str]) -> str:
+        self.spaces.delete_space(args[0])
+        return f"✓ Deleted space {args[0]}"
 
     # ── Contract handlers ─────────────────────────────────────────────
 

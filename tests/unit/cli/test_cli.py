@@ -88,6 +88,17 @@ def test_tenant_show_missing_raises(cli: RentalCLI) -> None:
     assert cli.execute("tenant show TNT-nope").startswith("Error:")
 
 
+def test_tenant_delete(cli: RentalCLI) -> None:
+    cli.execute('tenant add "Bob" bob@mail.com +380502223344')
+    tid = cli.tenants.get_all_tenants()[0].id
+    assert cli.execute(f"tenant delete {tid}") == f"✓ Deleted tenant {tid}"
+    assert cli.execute("tenant list") == "(no tenants)"
+
+
+def test_tenant_delete_missing_raises(cli: RentalCLI) -> None:
+    assert cli.execute("tenant delete TNT-nope").startswith("Error:")
+
+
 def test_tenant_add_invalid_email(cli: RentalCLI) -> None:
     assert cli.execute('tenant add "Bad" not-an-email +380501112233').startswith("Error:")
 
@@ -114,6 +125,17 @@ def test_space_list_available_show(cli: RentalCLI) -> None:
 
 def test_space_add_negative_price(cli: RentalCLI) -> None:
     assert cli.execute('space add "Office" office 50 3 -10').startswith("Error:")
+
+
+def test_space_delete(cli: RentalCLI) -> None:
+    cli.execute('space add "Office" office 50 3 1500')
+    sid = cli.spaces.get_all_spaces()[0].id
+    assert cli.execute(f"space delete {sid}") == f"✓ Deleted space {sid}"
+    assert cli.execute("space list") == "(no spaces)"
+
+
+def test_space_delete_missing_raises(cli: RentalCLI) -> None:
+    assert cli.execute("space delete SPC-nope").startswith("Error:")
 
 
 # ── Contract commands ─────────────────────────────────────────────────
