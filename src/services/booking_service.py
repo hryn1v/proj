@@ -188,6 +188,14 @@ class BookingService:
         """
         return self._booking_repo.find_pending_for_space(space_id)
 
+    def get_all_bookings(self) -> list[Booking]:
+        """Get every booking regardless of status.
+
+        Returns:
+            List of all bookings.
+        """
+        return self._booking_repo.get_all()
+
     def get_bookings_by_tenant(self, tenant_id: str) -> list[Booking]:
         """Get all bookings for a tenant.
 

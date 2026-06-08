@@ -85,19 +85,24 @@ rental-management-system/
 │   │   ├── penalty_strategy.py    # Strategy Pattern
 │   │   ├── invoice_factory.py     # Factory Method
 │   │   └── notification_service.py # Observer Pattern
+│   ├── cli/                 # Interactive REPL
+│   │   ├── repl.py          # RentalCLI command dispatcher
+│   │   └── __main__.py      # `python -m src.cli` entry point
 │   └── utils/               # Helpers
 │       ├── exceptions.py    # Custom exception hierarchy
 │       ├── validators.py    # Input validation
 │       ├── date_helpers.py  # Date arithmetic
 │       └── id_generator.py  # UUID-based IDs
-├── tests/                   # 200+ tests
+├── tests/                   # 380+ tests
 │   ├── conftest.py          # Shared fixtures
-│   ├── unit/                # Unit tests by layer
+│   ├── unit/                # Unit tests by layer (incl. cli/)
 │   ├── integration/         # Cross-service workflows
 │   └── edge_cases/          # Boundary conditions
 ├── docs/diagrams/           # UML diagrams (Mermaid)
 ├── .cursor/rules/           # AI context files
 ├── .github/workflows/       # CI/CD pipeline
+├── rms.py                   # CLI launcher (python rms.py / -m rms)
+├── demo.py                  # Scripted lifecycle demo
 ├── .cursorrules             # Global AI rules
 ├── Dockerfile               # Isolated test runner
 ├── pyproject.toml           # Project config
@@ -121,6 +126,44 @@ cd proj
 
 # Install dependencies
 pip install -r requirements.txt
+```
+
+### Running the CLI
+
+The project ships with an interactive command-line shell (REPL) for managing
+the full rental lifecycle in memory:
+
+```bash
+python rms.py
+# equivalent:  python -m rms     or     python -m src.cli
+```
+
+```text
+🏢  Rental Management System — interactive CLI.  Type 'help' for commands, 'quit' to exit.
+rms> seed
+✓ Seeded sample data:
+  tenant  TNT-…  (Alice, active)
+  space   SPC-…  (Office 301, now occupied)
+  contract CTR-… (active)
+rms> tenant add "Alice Johnson" alice@mail.com +380501112233
+✓ Registered TNT-…  Alice Johnson <alice@mail.com>  active  violations=0
+rms> contract create <tenant_id> <space_id> 2026-06-01 2027-06-01 1500 1500
+rms> contract activate <contract_id>
+rms> invoice gen <contract_id>
+rms> invoice pay <invoice_id> 1500 card
+rms> stats
+rms> quit
+```
+
+Type `help` inside the shell for the full command list (tenants, spaces,
+contracts, bookings, check-ins, invoices, payments and penalty strategies).
+All data is in-memory and is discarded when the shell exits.
+
+### Running a Scripted Demo
+
+```bash
+# Guided, step-by-step walkthrough of the whole rental lifecycle
+python demo.py
 ```
 
 ### Running Tests

@@ -103,6 +103,14 @@ class PaymentService:
             raise EntityNotFoundError("Payment", payment_id)
         return payment
 
+    def get_all_payments(self) -> list[Payment]:
+        """Get every recorded payment.
+
+        Returns:
+            List of all payments.
+        """
+        return self._payment_repo.get_all()
+
     def get_payments_for_invoice(self, invoice_id: str) -> list[Payment]:
         """Get all payments for an invoice.
 

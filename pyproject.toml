@@ -20,12 +20,13 @@ markers = [
 
 [tool.coverage.run]
 source = ["src"]
-omit = ["tests/*", "*/__init__.py"]
+omit = ["tests/*", "*/__init__.py", "*/__main__.py"]
 
 [tool.coverage.report]
 fail_under = 70
 show_missing = true
 skip_empty = true
+exclude_also = ['if __name__ == "__main__":']
 
 [tool.coverage.html]
 directory = "reports/htmlcov"

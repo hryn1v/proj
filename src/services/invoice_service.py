@@ -235,6 +235,14 @@ class InvoiceService:
             raise EntityNotFoundError("Invoice", invoice_id)
         return invoice
 
+    def get_all_invoices(self) -> list[Invoice]:
+        """Get every invoice regardless of status.
+
+        Returns:
+            List of all invoices.
+        """
+        return self._invoice_repo.get_all()
+
     def get_invoices_by_tenant(self, tenant_id: str) -> list[Invoice]:
         """Get all invoices for a tenant.
 

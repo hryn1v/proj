@@ -214,6 +214,14 @@ class ContractService:
         """
         return self._contract_repo.find_by_tenant(tenant_id)
 
+    def get_all_contracts(self) -> list[Contract]:
+        """Get every contract regardless of status.
+
+        Returns:
+            List of all contracts.
+        """
+        return self._contract_repo.get_all()
+
     def get_active_contracts(self) -> list[Contract]:
         """Get all active contracts.
 
